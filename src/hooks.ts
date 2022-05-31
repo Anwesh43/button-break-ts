@@ -1,7 +1,7 @@
 import {useState, useEffect, CSSProperties} from 'react'
 
 const scGap : number = 0.01 
-const delay : number = 20 
+const delay : number = 25
 
 export const useAnimatedScale = () => {
     const [scale, setScale] = useState(0)
@@ -52,7 +52,7 @@ const sinify = (scale : number) : number => Math.sin(scale * Math.PI)
 export const useStyle = (w : number, h : number, scale : number) => {
     const sf : number = sinify(scale)
     const position = 'absolute'
-    const size : number = 6.9 
+    const size : number = Math.min(w, h) / 6.9 
     const background : string = "green"
     return {
         blockStyle(i : number) : CSSProperties {
@@ -60,13 +60,26 @@ export const useStyle = (w : number, h : number, scale : number) => {
             const height = `${size}px`
             const left = `${w / 2 - size + size * i - (1 - 2 * i) * (w / 2 - size) * sf}px`
             const top = `${h / 2 - size / 2}px`
+            const alignItems = 'center'
+            let justifyContent = 'flex-end'
+            if (i === 1) {
+                justifyContent = 'flex-start'
+            }
+            const color = 'white'
+            const fontSize = `${size / 4}px`
+            const display = 'flex'
             return {
                 position,
                 left, 
                 top, 
                 width, 
                 height,
-                background 
+                background,
+                alignItems, 
+                justifyContent,
+                color, 
+                fontSize,
+                display
             }
         }
     }
